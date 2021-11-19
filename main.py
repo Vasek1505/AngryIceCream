@@ -1,6 +1,3 @@
-#github test pls work
-
-
 import pygame, sys
 from pygame.locals import *
 from tile import *
