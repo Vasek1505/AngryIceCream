@@ -2,6 +2,8 @@ import pygame
 from enum import Enum
 
 TILE_SIZE = 40
+GRID_SIZE_X = 27
+GRID_SIZE_Y = 27
 
 class tile_type(Enum):
     ICE = 0
@@ -22,7 +24,7 @@ class Player:
         self.next_y = 0
         self.movement_step = 1
         self.moving = False
-        self.dir = (0,0)
+        self.dir = (1,0)
         self.move_dir = (0,0)
         self.movement_speed = 20
 
@@ -51,7 +53,7 @@ class Player:
                 elif keys[pygame.K_RIGHT]:
                     self.move_dir = (1,0)
             
-                if keys[pygame.K_KP_ENTER]:
+                if keys[pygame.K_RCTRL]:
                     self.ice(tiles)
             if self.x + self.move_dir[0] > 26 or self.x + self.move_dir[0] < 0 or self.y + self.move_dir[1] > 26 or self.y + self.move_dir[1] < 0:
                 self.move_dir = (0,0) 
@@ -80,8 +82,12 @@ class Player:
     def ice(self, tiles):
         if tiles[self.y + self.dir[1]][self.x + self.dir[0]].type == tile_type.FREE:
             for i in range(0,5):
+                if self.x + self.dir[0] * i > GRID_SIZE_X or self.y + self.dir[1] * i > GRID_SIZE_Y:
+                    return
                 if tiles[self.y  +self.dir[1] * i + self.dir[1]][self.x + self.dir[0] * i + self.dir[0]].type == tile_type.FREE:
                     tiles[self.y  +self.dir[1] * i + self.dir[1]][self.x + self.dir[0] * i + self.dir[0]].set_type(tile_type.ICE)
+                else:
+                    return
                  
 
     def draw(self, window):

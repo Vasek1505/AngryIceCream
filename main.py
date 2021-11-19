@@ -8,8 +8,8 @@ BLUE = (0,0,255)
 WHITE =  (255,255,255)
 
 
-PLAYER_ONE_IMG = pygame.image.load("E:\Python\BADICECREAMRIPOFF\player_one.png")
-PLAYER_TWO_IMG = pygame.image.load("E:\Python\BADICECREAMRIPOFF\player_two.png") 
+PLAYER_ONE_IMG = pygame.image.load("player_one.png")
+PLAYER_TWO_IMG = pygame.image.load("player_two.png") 
 
 
 pygame.init()
