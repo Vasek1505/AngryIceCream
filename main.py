@@ -86,8 +86,10 @@ while True:
     keys = pygame.key.get_pressed()
 
     player_one.move(keys, tiles)
-    print(player_one.adj_x)
     player_two.move(keys, tiles)
+
+    player_one.update(tiles)
+    player_two.update(tiles)
 
     player_one.draw(WINDOW)
     player_two.draw(WINDOW)

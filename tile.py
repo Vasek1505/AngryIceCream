@@ -4,7 +4,7 @@ from enum import Enum
 from pygame.constants import QUIT
 from player import *
 
-ICE_IMG = pygame.image.load("E:\Python\BADICECREAMRIPOFF\ice.png")
+ICE_IMG = pygame.image.load("ice.png")
 
 class Tile:
 
