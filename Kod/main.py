@@ -68,6 +68,9 @@ for i in range(27):
 player_one = Player(1, 10, 10, PLAYER_ONE_IMG)
 player_two = Player(2, 11, 10, PLAYER_TWO_IMG)
 
+tiles[10][10].set_type(tile_type.PLAYER)
+tiles[10][11].set_type(tile_type.ENEMY)
+
 clock = pygame.time.Clock()
 
 while True:
@@ -87,8 +90,14 @@ while True:
     
     keys = pygame.key.get_pressed()
 
+    tiles[player_one.y][player_one.x].set_type(tile_type.FREE)
+    tiles[player_two.y][player_two.x].set_type(tile_type.FREE)
+
     player_one.move(keys, tiles)
     player_two.move(keys, tiles)
+
+    tiles[player_one.y][player_one.x].set_type(tile_type.PLAYER, player_one)
+    tiles[player_two.y][player_two.x].set_type(tile_type.ENEMY, player_two)
 
     player_one.update(tiles)
     player_two.update(tiles)

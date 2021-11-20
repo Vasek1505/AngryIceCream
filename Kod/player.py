@@ -9,6 +9,8 @@ class tile_type(Enum):
     ICE = 0
     FREE = 1
     OBSTACLE = 2
+    ENEMY = 3
+    PLAYER = 4
 
 
 class Player:
@@ -32,7 +34,7 @@ class Player:
         self.melting = False
 
     def move(self, keys, tiles):
-        if not self.moving:
+        if not self.moving and not self.icing:
             if self.number == 1:
                 if keys[pygame.K_w]:
                     self.move_dir = (0,-1)
@@ -70,7 +72,8 @@ class Player:
                 if keys[pygame.K_RCTRL] and not self.moving and not self.icing:
                     self.icing = True
                     self.frames = 2
-        else:
+        
+        elif not self.icing:
             self.icing = False
             if self.move_dir[0] == 1:
                 self.adj_x = TILE_SIZE/self.movement_speed * self.movement_step
@@ -94,9 +97,15 @@ class Player:
     def ice(self, tiles, step):
         if self.x + self.dir[0] * step > GRID_SIZE_X-1 or self.y + self.dir[1] * step > GRID_SIZE_Y-1 or self.x + self.dir[0] * step < 0 or self.y + self.dir[1] * step < 0:
             self.icing = False
+            self.melting = False
             return
         tile = tiles[self.y + self.dir[1] * step][self.x + self.dir[0] * step]
         
+        if tile.type == tile_type.PLAYER or tile.type == tile_type.ENEMY:
+            self.icing = False
+            self.melting = False
+            return
+
         if tile.type == tile_type.FREE:
             if self.melting:
                 self.melting = False
