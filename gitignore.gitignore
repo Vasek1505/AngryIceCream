@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+
+!.gitattributes
+!.gitignore
+!readme.md
+!.gitkeep
+!*.py
+!*.png
+!*.txt
+!*/
