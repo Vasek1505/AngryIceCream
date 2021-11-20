@@ -29,6 +29,7 @@ class Player:
         self.movement_speed = 20
         self.icing = False
         self.frames = 0
+        self.melting = False
 
     def move(self, keys, tiles):
         if not self.moving:
@@ -47,10 +48,9 @@ class Player:
                 if tiles[self.y + self.move_dir[1]][self.x + self.move_dir[0]].type != tile_type.ICE and (self.move_dir[0] != 0 or self.move_dir[1] != 0):
                     self.moving = True
 
-                if keys[pygame.K_x] and not self.moving:
+                if keys[pygame.K_x] and not self.moving and not self.icing:
                     self.icing = True
-                    self.ice(tiles, 1)
-                    self.frames = 4
+                    self.frames = 2
             
             else:
                 if keys[pygame.K_UP]:
@@ -67,11 +67,11 @@ class Player:
                 if tiles[self.y + self.move_dir[1]][self.x + self.move_dir[0]].type != tile_type.ICE and (self.move_dir[0] != 0 or self.move_dir[1] != 0):
                     self.moving = True
 
-                if keys[pygame.K_RCTRL] and not self.moving:
+                if keys[pygame.K_RCTRL] and not self.moving and not self.icing:
                     self.icing = True
-                    self.ice(tiles, 1)
-                    self.frames = 4
+                    self.frames = 2
         else:
+            self.icing = False
             if self.move_dir[0] == 1:
                 self.adj_x = TILE_SIZE/self.movement_speed * self.movement_step
             elif self.move_dir[0] == -1:
@@ -92,19 +92,31 @@ class Player:
                 self.move_dir = (0,0)
 
     def ice(self, tiles, step):
-
-        #if self.x + self.dir[0] * step > GRID_SIZE_X or self.y + self.dir[1] * step > GRID_SIZE_Y:
-         #   self.icing = False
-        if tiles[self.y  +self.dir[1] * step + self.dir[1]][self.x + self.dir[0] * step + self.dir[0]].type == tile_type.FREE:
-            tiles[self.y  +self.dir[1] * step + self.dir[1]][self.x + self.dir[0] * step + self.dir[0]].set_type(tile_type.ICE)
-        #else:
-         #   self.icing = False
+        if self.x + self.dir[0] * step > GRID_SIZE_X-1 or self.y + self.dir[1] * step > GRID_SIZE_Y-1 or self.x + self.dir[0] * step < 0 or self.y + self.dir[1] * step < 0:
+            self.icing = False
+            return
+        tile = tiles[self.y + self.dir[1] * step][self.x + self.dir[0] * step]
+        
+        if tile.type == tile_type.FREE:
+            if self.melting:
+                self.melting = False
+                self.icing = False
+                return
+            tile.set_type(tile_type.ICE)
+        elif self.melting and tile.type == tile_type.ICE:
+            tile.set_type(tile_type.FREE)
+        elif tile.type == tile_type.ICE and step == 1:
+            tile.set_type(tile_type.FREE)
+            self.melting = True
+        else:
+            self.icing = False
+            self.melting = False
     
     def update(self, tiles):
         if self.icing:
             self.frames += 1
-            if self.frames % 4 == 0:
-                self.ice(tiles, self.frames / 4)
+            if self.frames % 3 == 0:
+                self.ice(tiles, int(self.frames / 3))
 
 
 

@@ -3,13 +3,15 @@ from pygame.locals import *
 from tile import *
 from player import *
 
+sys.dont_write_bytecode = True
+
 TILE_SIZE = 40
 BLUE = (0,0,255)
 WHITE =  (255,255,255)
 
 
-PLAYER_ONE_IMG = pygame.image.load("player_one.png")
-PLAYER_TWO_IMG = pygame.image.load("player_two.png") 
+PLAYER_ONE_IMG = pygame.image.load("Grafika/player_one.png")
+PLAYER_TWO_IMG = pygame.image.load("Grafika/player_two.png") 
 
 
 pygame.init()

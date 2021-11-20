@@ -4,6 +4,8 @@ from enum import Enum
 from pygame.constants import QUIT
 from player import *
 
+ice = True
+
 ICE_IMG = pygame.image.load("Grafika/ice.png")
 
 class Tile:
