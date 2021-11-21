@@ -9,7 +9,7 @@ TILE_SIZE = 40
 BLUE = (0,0,255)
 WHITE =  (255,255,255)
 
-
+#vasek smrdi
 PLAYER_ONE_IMG = pygame.image.load("Grafika/player_one.png")
 PLAYER_TWO_IMG = pygame.image.load("Grafika/player_two.png") 
 
