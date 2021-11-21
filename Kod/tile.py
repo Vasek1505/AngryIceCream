@@ -6,11 +6,17 @@ from player import *
 
 ice = True
 
-ICE_IMG = pygame.image.load("Grafika/ice.png")
+
+def scale(image, x_scale, y_scale):
+    size = (72, 72)
+    return pygame.transform.scale(image , size)
+
+
+ICE_IMG = scale(pygame.image.load("Grafika/ice1texture.png"), 0.257, 0.257)
 
 class Tile:
 
-    def __init__(self, type, img, x ,y, entity = None):
+    def __init__(self, type, img, y ,x, entity = None):
         self.type = type
         self.entity = None
         if type == tile_type.ENEMY or type == tile_type.PLAYER:
@@ -18,6 +24,8 @@ class Tile:
         self.img = img
         self.x = x
         self.y = y 
+        font = pygame.font.Font("freesansbold.ttf", 10)
+        self.text = font.render(f"[{self.x}][{self.y}]", True, (255,255,255))
 
     def set_type(self, type, entity = None):
         self.type = type
@@ -29,6 +37,7 @@ class Tile:
             self.entity = entity
 
     def draw(self, window):
+        window.blit(self.text, (self.x * TILE_SIZE + 420, self.y * TILE_SIZE))
         if self.img != None:
             window.blit(self.img, (self.x * TILE_SIZE + 420, self.y * TILE_SIZE))
-
+        

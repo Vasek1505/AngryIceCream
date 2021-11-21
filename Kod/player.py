@@ -1,9 +1,9 @@
 import pygame
 from enum import Enum
 
-TILE_SIZE = 40
-GRID_SIZE_X = 27
-GRID_SIZE_Y = 27
+TILE_SIZE = 72
+GRID_SIZE_X = int(1080/TILE_SIZE)
+GRID_SIZE_Y = int(1080/TILE_SIZE)
 
 class tile_type(Enum):
     ICE = 0
@@ -45,9 +45,9 @@ class Player:
                 elif keys[pygame.K_d]:
                     self.move_dir = (1,0)
             
-                if self.x + self.move_dir[0] > GRID_SIZE_X or self.x + self.move_dir[0] < 0 or self.y + self.move_dir[1] > GRID_SIZE_Y or self.y + self.move_dir[1] < 0:
+                if self.x + self.move_dir[0] > GRID_SIZE_X-1 or self.x + self.move_dir[0] < 0 or self.y + self.move_dir[1] > GRID_SIZE_Y-1 or self.y + self.move_dir[1] < 0:
                     self.move_dir = (0,0) 
-                if tiles[self.y + self.move_dir[1]][self.x + self.move_dir[0]].type != tile_type.ICE and (self.move_dir[0] != 0 or self.move_dir[1] != 0):
+                if tiles[self.x + self.move_dir[0]][self.y + self.move_dir[1]].type != tile_type.ICE and (self.move_dir[0] != 0 or self.move_dir[1] != 0):
                     self.moving = True
 
                 if keys[pygame.K_x] and not self.moving and not self.icing:
@@ -66,7 +66,7 @@ class Player:
 
                 if self.x + self.move_dir[0] > GRID_SIZE_X or self.x + self.move_dir[0] < 0 or self.y + self.move_dir[1] > GRID_SIZE_Y or self.y + self.move_dir[1] < 0:
                     self.move_dir = (0,0) 
-                if tiles[self.y + self.move_dir[1]][self.x + self.move_dir[0]].type != tile_type.ICE and (self.move_dir[0] != 0 or self.move_dir[1] != 0):
+                if tiles[self.x + self.move_dir[0]][self.y + self.move_dir[1]].type != tile_type.ICE and (self.move_dir[0] != 0 or self.move_dir[1] != 0):
                     self.moving = True
 
                 if keys[pygame.K_RCTRL] and not self.moving and not self.icing:
@@ -99,7 +99,7 @@ class Player:
             self.icing = False
             self.melting = False
             return
-        tile = tiles[self.y + self.dir[1] * step][self.x + self.dir[0] * step]
+        tile = tiles[self.x + self.dir[0] * step][self.y + self.dir[1] * step]
         
         if tile.type == tile_type.PLAYER or tile.type == tile_type.ENEMY:
             self.icing = False
