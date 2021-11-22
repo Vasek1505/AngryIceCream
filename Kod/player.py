@@ -61,7 +61,7 @@ class Player:
                 if not self.moving and not self.icing:        
                     if self.last_dir == self.current_move_dir:
                         self.move_timer += 1
-                        if self.move_timer > 30:
+                        if self.move_timer > 20:
                             self.move_dir = self.last_dir
                     else:
                         self.last_dir = self.current_move_dir
@@ -78,6 +78,7 @@ class Player:
 
                 if keys[pygame.K_x] and not self.moving and not self.icing:
                     self.icing = True
+                    self.move_timer = 0
                     self.frames = 2
             
             else:
@@ -94,7 +95,7 @@ class Player:
                 if not self.moving and not self.icing:        
                     if self.last_dir == self.current_move_dir:
                         self.move_timer += 1
-                        if self.move_timer > 30:
+                        if self.move_timer > 20:
                             self.move_dir = self.last_dir
                     else:
                         self.last_dir = self.current_move_dir
@@ -110,6 +111,7 @@ class Player:
 
                 if keys[pygame.K_RCTRL] and not self.moving and not self.icing:
                     self.icing = True
+                    self.move_timer = 0
                     self.frames = 2
         
         elif not self.icing:
