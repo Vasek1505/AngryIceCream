@@ -15,13 +15,12 @@ class tile_type(Enum):
 
 class Player:
     
-    def __init__(self, number, x, y, img):
+    def __init__(self, number, x, y):
         self.x = x
         self.y = y
         self.adj_x = 0
         self.adj_y = 0
         self.number = number
-        self.img = img
         self.next_x = 0
         self.next_y = 0
         self.movement_step = 1
@@ -32,19 +31,46 @@ class Player:
         self.icing = False
         self.frames = 0
         self.melting = False
+        self.images = {}
+        self.load_textures()
+        self.move_timer = 0
+        self.last_dir = (0,0)
+        
 
+    def load_textures(self):
+        self.images["(-1, 0)"] = pygame.image.load(f"Grafika/player{self.number}_left.png")
+        self.images["(1, 0)"] = pygame.image.load(f"Grafika/player{self.number}_right.png")
+        self.images["(0, -1)"] = pygame.image.load(f"Grafika/player{self.number}_up.png")
+        self.images["(0, 1)"] = pygame.image.load(f"Grafika/player{self.number}_down.png")
     def move(self, keys, tiles):
         if not self.moving and not self.icing:
+            self.current_move_dir = (0,0)
             if self.number == 1:
-                if keys[pygame.K_w]:
-                    self.move_dir = (0,-1)
-                elif keys[pygame.K_s]:
-                    self.move_dir = (0,1)
-                elif keys[pygame.K_a]:
-                    self.move_dir = (-1,0)
-                elif keys[pygame.K_d]:
-                    self.move_dir = (1,0)
+
             
+                
+                if keys[pygame.K_w]:
+                    self.current_move_dir = (0,-1)
+                elif keys[pygame.K_s]:
+                    self.current_move_dir = (0,1)
+                elif keys[pygame.K_a]:
+                    self.current_move_dir = (-1,0)
+                elif keys[pygame.K_d]:
+                    self.current_move_dir = (1,0)
+
+                if not self.moving and not self.icing:        
+                    if self.last_dir == self.current_move_dir:
+                        self.move_timer += 1
+                        if self.move_timer > 30:
+                            self.move_dir = self.last_dir
+                    else:
+                        self.last_dir = self.current_move_dir
+                        if self.last_dir != (0,0): 
+                            self.dir = self.last_dir
+                        self.move_timer = 0
+
+
+
                 if self.x + self.move_dir[0] > GRID_SIZE_X-1 or self.x + self.move_dir[0] < 0 or self.y + self.move_dir[1] > GRID_SIZE_Y-1 or self.y + self.move_dir[1] < 0:
                     self.move_dir = (0,0) 
                 if tiles[self.x + self.move_dir[0]][self.y + self.move_dir[1]].type != tile_type.ICE and (self.move_dir[0] != 0 or self.move_dir[1] != 0):
@@ -56,13 +82,26 @@ class Player:
             
             else:
                 if keys[pygame.K_UP]:
-                    self.move_dir = (0,-1)
+                    self.current_move_dir = (0,-1)
                 elif keys[pygame.K_DOWN]:
-                    self.move_dir = (0,1)
+                    self.current_move_dir = (0,1)
                 elif keys[pygame.K_LEFT]:
-                    self.move_dir = (-1,0)
+                    self.current_move_dir = (-1,0)
                 elif keys[pygame.K_RIGHT]:
-                    self.move_dir = (1,0)
+                    self.current_move_dir = (1,0)
+
+
+                if not self.moving and not self.icing:        
+                    if self.last_dir == self.current_move_dir:
+                        self.move_timer += 1
+                        if self.move_timer > 30:
+                            self.move_dir = self.last_dir
+                    else:
+                        self.last_dir = self.current_move_dir
+                        if self.last_dir != (0,0): 
+                            self.dir = self.last_dir
+                        self.move_timer = 0
+
 
                 if self.x + self.move_dir[0] > GRID_SIZE_X or self.x + self.move_dir[0] < 0 or self.y + self.move_dir[1] > GRID_SIZE_Y or self.y + self.move_dir[1] < 0:
                     self.move_dir = (0,0) 
@@ -84,6 +123,7 @@ class Player:
             else:
                 self.adj_y = -TILE_SIZE/self.movement_speed * self.movement_step
             self.movement_step += 1
+            self.dir = self.move_dir
             if self.movement_step == self.movement_speed:
                 self.moving = False
                 self.adj_x = 0
@@ -91,7 +131,6 @@ class Player:
                 self.x += self.move_dir[0]
                 self.y += self.move_dir[1]
                 self.movement_step = 1
-                self.dir = self.move_dir
                 self.move_dir = (0,0)
 
     def ice(self, tiles, step):
@@ -130,4 +169,4 @@ class Player:
 
 
     def draw(self, window):
-        window.blit(self.img, (self.x*TILE_SIZE+420+self.adj_x, self.y* TILE_SIZE+self.adj_y))
+        window.blit(self.images[str(self.dir)], (self.x*TILE_SIZE+420+self.adj_x, self.y* TILE_SIZE+self.adj_y))

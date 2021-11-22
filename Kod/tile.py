@@ -7,6 +7,9 @@ from player import *
 ice = True
 
 
+
+
+
 def scale(image, x_scale, y_scale):
     size = (72, 72)
     return pygame.transform.scale(image , size)
@@ -23,9 +26,7 @@ class Tile:
             self.entity = entity
         self.img = img
         self.x = x
-        self.y = y 
-        font = pygame.font.Font("freesansbold.ttf", 10)
-        self.text = font.render(f"[{self.x}][{self.y}]", True, (255,255,255))
+        self.y = y
 
     def set_type(self, type, entity = None):
         self.type = type
@@ -37,7 +38,8 @@ class Tile:
             self.entity = entity
 
     def draw(self, window):
-        window.blit(self.text, (self.x * TILE_SIZE + 420, self.y * TILE_SIZE))
         if self.img != None:
             window.blit(self.img, (self.x * TILE_SIZE + 420, self.y * TILE_SIZE))
         
+
+

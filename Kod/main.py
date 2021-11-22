@@ -8,9 +8,6 @@ sys.dont_write_bytecode = True
 BLUE = (0,0,255)
 WHITE =  (255,255,255)
 
-#vasek smrdi
-PLAYER_ONE_IMG = pygame.image.load("Grafika/player_one.png")
-PLAYER_TWO_IMG = pygame.image.load("Grafika/player_two.png") 
 
 
 pygame.init()
@@ -26,9 +23,9 @@ level = ["               ",
          "               ",
          "               ",
          "               ",
-         "               ",
-         "               ",
-         "               ",
+         "      X        ",
+         "      X        ",
+         "      X        ",
          "          XXXXX",
          "  XXXX         ",
          "               ",
@@ -51,16 +48,13 @@ for i in range(GRID_SIZE_X):
     tiles.append(new)
 
 
-player_one = Player(1, 10, 10, PLAYER_ONE_IMG)
-player_two = Player(2, 11, 10, PLAYER_TWO_IMG)
+player_one = Player(1, 10, 10)
+player_two = Player(2, 11, 10)
 
 tiles[10][10].set_type(tile_type.PLAYER)
 tiles[10][11].set_type(tile_type.ENEMY)
 
 clock = pygame.time.Clock()
-
-font = pygame.font.Font("freesansbold.ttf", 32)
-
 
 while True:
     clock.tick(60)
@@ -94,10 +88,6 @@ while True:
 
     player_one.draw(WINDOW)
     player_two.draw(WINDOW)
-    
-    fps_text = font.render(str(int(1000/clock.get_time())), True, (255,255,255))
-    WINDOW.blit(fps_text, (0,0))
-
 
 
     pygame.display.update()
