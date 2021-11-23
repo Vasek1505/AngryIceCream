@@ -32,7 +32,7 @@ level = ["               ",
          "   XXXXXXXXXXX ",
          "               ",
          "               ",
-         "               ",
+         "         UU    ",
          "               "
         ]
 
@@ -43,6 +43,8 @@ for i in range(GRID_SIZE_X):
     for j in range(GRID_SIZE_Y):
         if level[j][i] == "X":
             new.append(Tile(tile_type.ICE, ICE_IMG, j, i))
+        elif level[j][i] == "U":
+            new.append(Tile(tile_type.OBSTACLE, OBSTACLE_IMG, j, i))
         else:
             new.append(Tile(tile_type.FREE, None, j , i))
     tiles.append(new)

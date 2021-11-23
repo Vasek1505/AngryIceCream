@@ -10,12 +10,12 @@ ice = True
 
 
 
-def scale(image, x_scale, y_scale):
+def scale(image):
     size = (72, 72)
     return pygame.transform.scale(image , size)
 
-
-ICE_IMG = scale(pygame.image.load("Grafika/ice1texture.png"), 0.257, 0.257)
+OBSTACLE_IMG = scale(pygame.image.load("Grafika/ice1texture.png"))
+ICE_IMG = scale(pygame.image.load("Grafika/ice1texture.png"))
 
 class Tile:
 
