@@ -1,6 +1,7 @@
 import pygame, sys
 from enum import Enum
 
+from fruit import *
 from pygame.constants import QUIT
 from player import *
 
@@ -14,7 +15,7 @@ def scale(image):
     size = (72, 72)
     return pygame.transform.scale(image , size)
 
-OBSTACLE_IMG = scale(pygame.image.load("Grafika/ice1texture.png"))
+OBSTACLE_IMG = scale(pygame.image.load("Grafika/obstacle.png"))
 ICE_IMG = scale(pygame.image.load("Grafika/ice1texture.png"))
 
 class Tile:
